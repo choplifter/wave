@@ -18,7 +18,7 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
      *
      * @var array
      */
-    protected $scopes = ['openid', 'email', 'offline_access'];
+    protected $scopes = ['openid', 'offline_access', 'user_data', 'vehicle_device_data', 'vehicle_cmds', 'vehicle_charging_cmds'];
 
     /**
      * Get the authentication URL for Tesla.
