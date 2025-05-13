@@ -155,4 +155,15 @@ return [
         'client_id' => env('TWITCH_CLIENT_ID'),
         'client_secret' => env('TWITCH_CLIENT_SECRET'),
     ],
+        'twitch' => [
+        'name' => 'Tesla',
+        'scopes' => null,
+        'parameters' => null,
+        'stateless' => true,
+        'active' => false,
+        'socialite' => true,
+        'svg' => '<svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none"><path fill="#E82127" d="M24 0C10.745 0 0 10.745 0 24s10.745 24 24 24 24-10.745 24-24S37.255 0 24 0Zm0 44C12.954 44 4 35.046 4 24S12.954 4 24 4s20 8.954 20 20-8.954 20-20 20Z"/><path fill="#E82127" d="M24 8c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16Zm0 28c-6.627 0-12-5.373-12-12S17.373 12 24 12s12 5.373 12 12-5.373 12-12 12Z"/><path fill="#E82127" d="M24 16c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8Zm0 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4Z"/></svg>',
+        'client_id' => env('TESLA_CLIENT_ID'),
+        'client_secret' => env('TESLA_CLIENT_SECRET'),
+    ],
 ];

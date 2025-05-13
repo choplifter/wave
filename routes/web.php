@@ -13,6 +13,18 @@
 
 use Illuminate\Support\Facades\Route;
 use Wave\Facades\Wave;
+use Laravel\Socialite\Facades\Socialite;
 
 // Wave routes
 Wave::routes();
+
+Route::get('auth/tesla', function () {
+    return Socialite::driver('tesla')->redirect();
+});
+
+Route::get('auth/tesla/callback', function () {
+    $user = Socialite::driver('tesla')->user();
+
+    // Handle user login or registration
+    dd($user);
+});

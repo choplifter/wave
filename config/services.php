@@ -33,6 +33,12 @@ return [
 
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
-    ]
+    ],
+
+    'tesla' => [
+        'client_id' => env('TESLA_CLIENT_ID'),
+        'client_secret' => env('TESLA_CLIENT_SECRET'),
+        'redirect' => env('TESLA_REDIRECT_URI'),
+    ],
 
 ];
