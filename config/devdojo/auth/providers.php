@@ -157,7 +157,7 @@ return [
     ],
     'tesla' => [
         'name' => 'Tesla',
-        'scopes' => ['openid', 'offline_access', 'user_data', 'vehicle_device_data', 'vehicle_cmds', 'vehicle_charging_cmds'],
+        'scopes' => 'openid', 'offline_access', 'user_data', 'vehicle_device_data', 'vehicle_cmds', 'vehicle_charging_cmds',
         'parameters' => null,
         'stateless' => true,
         'active' => true,
