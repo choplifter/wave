@@ -11,7 +11,7 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
      *
      * @var string
      */
-    protected $baseUrl = 'https://auth.tesla.com/oauth2/v3';
+    protected $baseUrl = 'https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3';
 
     /**
      * The scopes being requested.
