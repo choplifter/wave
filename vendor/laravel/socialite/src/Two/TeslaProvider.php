@@ -12,6 +12,7 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
      * @var string
      */
     protected $baseUrl = 'https://fleet-auth.prd.vn.cloud.tesla.com/oauth2/v3';
+    protected $apiUrl = 'https://fleet-api.prd.eu.vn.cloud.tesla.com/api/1';
 
     /**
      * The scopes being requested.
@@ -49,7 +50,7 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
      */
     protected function getUserByToken($token)
     {
-        $response = $this->getHttpClient()->get("{$this->baseUrl}/userinfo", [
+        $response = $this->getHttpClient()->get("{$this->apiUrl}/users/me", [
             'headers' => [
                 'Authorization' => 'Bearer ' . $token,
             ],
