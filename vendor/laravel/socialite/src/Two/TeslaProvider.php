@@ -68,11 +68,11 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id' => $user['sub'],
+            'id' => $user['response']['vault_uuid'] ?? null,
             'nickname' => null,
-            'name' => $user['name'] ?? null,
-            'email' => $user['email'] ?? null,
-            'avatar' => $user['picture'] ?? null,
+            'name' => $user['response']['full_name'] ?? null,
+            'email' => $user['response']['email'] ?? null,
+            'avatar' => $user['response']['profile_image_url'] ?? null,
         ]);
     }
 }
