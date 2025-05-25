@@ -47,11 +47,19 @@
 				href="https://devdojo.com"
 				target="_blank"
 				title="Resources"
-				description="View resources that will help you build your SaaS"
+				description="Renew your tokens and get access to more features."
 				link_text="View Resources"
-				image="/wave/img/globe.png"
+				
 			/>
-		</div>
+			<x-app.dashboard-card
+				href="https://devdojo.com"
+				target="_blank"
+				title="Resources"
+				description="Renew your tokens and get access to more features."
+				link_text="View Resources"
+				
+			/>
+			
 
 		<div class="mt-5 space-y-5">
 			@subscriber
@@ -63,6 +71,8 @@
 			
 			@admin
 				<x-app.message-for-admin />
+				
+
 			@endadmin
 		</div>
     </x-app.container>
