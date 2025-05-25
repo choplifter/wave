@@ -38,11 +38,11 @@ new class extends Component {
                 $this->refreshToken = $token->refreshToken;
                 $this->expiresAt = now()->addSeconds($token->expiresIn)->toDateTimeString();
 
-                // Optionally, save to user or social provider model
-                $user->access_token = $this->accessToken;
-                $user->refresh_token = $this->refreshToken;
-                $user->token_expires_at = $this->expiresAt;
-                $user->save();
+                // Store new tokens in socialuser model
+                $socialuser->token = $this->accessToken;
+                $socialuser->refresh_token = $this->refreshToken;
+                $socialuser->token_expires_at = $this->expiresAt;
+                $socialuser->save();
 
                 $this->message = 'Tesla token refreshed!';
             } else {
