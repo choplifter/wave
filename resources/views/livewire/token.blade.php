@@ -9,6 +9,7 @@ new class extends Component {
     public ?string $refreshToken = null;
     public ?string $expiresAt = null;
     public ?string $message = null;
+    public ?string $time = null;
 
     public function mount()
     {
@@ -24,6 +25,8 @@ new class extends Component {
                 $this->message = 'No Tesla social provider found for the user.';
                 return;
             }
+            $this->time = now()->toDateTimeString();
+            $this->message = 'Fetching latest token information...';
 
             // Check if token is expired or about to expire
             if (
@@ -85,6 +88,13 @@ new class extends Component {
             </div>
             <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
                    wire:model="expiresAt" readonly />
+        </div>
+                <div class="space-y-2">
+            <div class="text-gray-700 dark:text-gray-200 font-semibold">
+                Expires At:
+            </div>
+            <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
+                   wire:model="time" readonly />
         </div>
     </div>
 </div>
