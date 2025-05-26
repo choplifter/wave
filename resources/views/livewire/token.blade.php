@@ -91,7 +91,7 @@ new class extends Component {
         </div>
                 <div class="space-y-2">
             <div class="text-gray-700 dark:text-gray-200 font-semibold">
-                Expires At:
+                Time of Fetch:
             </div>
             <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
                    wire:model="time" readonly />
