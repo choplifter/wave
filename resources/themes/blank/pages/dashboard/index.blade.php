@@ -20,7 +20,7 @@
         <p>This is a <a href="https://livewire.laravel.com/docs/volt" target="_blank" class="underline">Laravel Volt</a>   page. Learn more about <a href="https://devdojo.com/wave/docs/pages" target="_blank" class="underline">how pages work</a> here.</p>
       </div>
       <div>
-        @livewire('Counter')
+        @livewire('counter')
         @livewire('token')
       </div>
 
