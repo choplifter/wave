@@ -76,35 +76,43 @@ new class extends Component {
 
 
 <div>
-    <div class="p-6 max-w-sm mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md space-y-4">
-        <input type="text" class="text-center text-sm text-red-500 w-full mb-2" wire:model="message" readonly />
+    @if (Auth::user()->isAdmin())
+        <div class="text-center text-sm text-gray-500 mb-4">
+            <span class="font-semibold">Admin Mode:</span> You can view and refresh Tesla tokens.
+        </div>
+        <div class="p-6 max-w-sm mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md space-y-4">
+            <input type="text" class="text-center text-sm text-red-500 w-full mb-2" wire:model="message" readonly />
 
-        <div class="space-y-2">
-            <div class="text-gray-700 dark:text-gray-200 font-semibold">Tesla Access Token:</div>
-            <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
-                wire:model="accessToken" readonly />
+            <div class="space-y-2">
+                <div class="text-gray-700 dark:text-gray-200 font-semibold">Tesla Access Token:</div>
+                <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
+                    wire:model="accessToken" readonly />
+            </div>
+            <div class="space-y-2">
+                <div class="text-gray-700 dark:text-gray-200 font-semibold">Tesla Refresh Token:</div>
+                <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
+                    wire:model="refreshToken" readonly />
+            </div>
+            <div class="space-y-2">
+                <div class="text-gray-700 dark:text-gray-200 font-semibold">Expires At:</div>
+                <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
+                    wire:model="expiresAt" readonly />
+            </div>
+            <div class="space-y-2">
+                <div class="text-gray-700 dark:text-gray-200 font-semibold">Time of Fetch:</div>
+                <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
+                    wire:model="time" readonly />
+            </div>
         </div>
-        <div class="space-y-2">
-            <div class="text-gray-700 dark:text-gray-200 font-semibold">Tesla Refresh Token:</div>
-            <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
-                wire:model="refreshToken" readonly />
+    @else
+        <div class="text-center text-sm text-gray-500 mb-4">
+            You do not have permission to view this page.
         </div>
-        <div class="space-y-2">
-            <div class="text-gray-700 dark:text-gray-200 font-semibold">Expires At:</div>
-            <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
-                wire:model="expiresAt" readonly />
-        </div>
-        <div class="space-y-2">
-            <div class="text-gray-700 dark:text-gray-200 font-semibold">Time of Fetch:</div>
-            <input type="text" class="break-all bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs w-full"
-                wire:model="time" readonly />
-        </div>
-    </div>
-    <script>
-        // Get the browser's timezone (e.g., "America/New_York")
-        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        <script>
+            // Get the browser's timezone (e.g., "America/New_York")
+            const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-        // Send to PHP via cookie or AJAX
-        document.cookie = `user_timezone=${userTimezone}; path=/`;
-    </script>
+            // Send to PHP via cookie or AJAX
+            document.cookie = `user_timezone=${userTimezone}; path=/`;
+        </script>
 </div>
