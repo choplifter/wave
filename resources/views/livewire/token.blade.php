@@ -108,6 +108,7 @@ new class extends Component {
         <div class="text-center text-sm text-gray-500 mb-4">
             You do not have permission to view this page.
         </div>
+    @endif
         <script>
             // Get the browser's timezone (e.g., "America/New_York")
             const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
