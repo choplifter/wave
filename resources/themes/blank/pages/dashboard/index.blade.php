@@ -29,8 +29,10 @@ name('dashboard');
             @livewire('counter')
         </div>
         <div class="w-full p-10 space-y-4 border border-black">
-            @livewire('token')
+            @livewire('teslatoken')
         </div>
-
+        <div class="w-full p-10 space-y-4 border border-black">
+            @livewire('teslacommands')
+        </div>
     </div>
 </x-layouts.app>
