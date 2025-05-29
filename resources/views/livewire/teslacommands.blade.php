@@ -24,7 +24,7 @@ new class extends Component {
         }    
         
 
-        $accessToken = TeslaCore::getfreshToken();
+        $accessToken = (new TeslaCore)->getfreshToken();
     }
     
 }; ?>
