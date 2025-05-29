@@ -36,12 +36,12 @@ new class extends Component {
             if (!$user) {
                 $this->message = 'No user is currently authenticated.';
 
-                return null;
+                return '';
             }
             if (!$socialuser) {
                 $this->message = 'No Tesla social provider found for the user.';
 
-                return null;
+                return '';
             }
             $this->time = now()->toDateTimeString();
             $this->message = 'Fetching latest token information...';
@@ -75,6 +75,7 @@ new class extends Component {
             $this->accessToken = $user->access_token ?? 'No access token';
             $this->expiresAt = $user->token_expires_at ?? 'Unknown';
             $this->message = 'Could not fetch latest token from Socialite.';
+            return
         }
 
     }
