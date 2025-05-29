@@ -25,7 +25,7 @@ new class extends Component {
         }
 
         $this->accessToken = (new TeslaCore())->getfreshToken();
-        $this->message = 'Token retrieved successfully.';
+        $this->fetchVehicles();
     }
 
     public function httpsendCommand($vehicleId, $command)

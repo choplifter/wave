@@ -1,5 +1,6 @@
 <?php
 // This file is part of the TeslaCore package.
+//
 namespace App\Livewire;
 
 use Livewire\Component;
