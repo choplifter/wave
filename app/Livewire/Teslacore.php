@@ -6,10 +6,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 use Livewire\Component;
 
-class Teslacore extends Component
+class TeslaCore extends Component
 {
    
-    public function refreshToken(): string
+    public function getfreshToken(): string
     {
         $user = Auth::user();
         try {
