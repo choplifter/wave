@@ -75,7 +75,7 @@ new class extends Component {
             $this->accessToken = $user->access_token ?? 'No access token';
             $this->expiresAt = $user->token_expires_at ?? 'Unknown';
             $this->message = 'Could not fetch latest token from Socialite.';
-            return
+            return '';
         }
 
     }
