@@ -1,5 +1,5 @@
 <?php
-
+// This file is part of the TeslaCore package.
 namespace App\Livewire;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
