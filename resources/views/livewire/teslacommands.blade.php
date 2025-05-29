@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Livewire\Volt\Component;
-use resources\views\livewire\TeslaToken;
+use app\Livewire\Teslacore;
 
 new class extends Component {
     public ?string $accessToken = null;
@@ -24,7 +24,7 @@ new class extends Component {
         }    
         
 
-        $accessToken = $this->refreshToken();
+        $accessToken = $this->TeslaCore::refreshToken();
     }
     
 }; ?>
