@@ -9,7 +9,7 @@ use Livewire\Component;
 class TeslaCore extends Component
 {
    
-    public function getfreshToken(): string
+    public static function getfreshToken(): string
     {
         $user = Auth::user();
         try {
