@@ -1,14 +1,104 @@
 <?php
 // This file is part of the TeslaCore package.
 namespace App\Livewire;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
 
 use Livewire\Component;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+
+use Laravel\Socialite\Facades\Socialite;
+
 
 class TeslaCore extends Component
 {
-   
+
+    protected $baseUrl = 'https://localhost:4443/api/1';
+
+    public function fetchVehicles($vehicle): bool
+    {
+        $token = $this->getfreshToken();
+        if (!$token) return false;
+
+        $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles");
+
+        if ($response->successful()) {
+            $this->vehicles = $response->json('response', []);
+        } else {
+            //$this->showError("Failed to fetch vehicles: " . $response->json('error', 'Unknown error'));
+            return false;
+        }
+        foreach ($this->vehicles as &$vehicle) {
+            $vehicleTag = $vehicle['vin'] ?? null;
+            if ($vehicleTag) {
+                $vehicleDataResponse = Http::withToken($token)
+                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
+
+                if ($vehicleDataResponse->successful()) {
+                    $vehicle['data'] = $vehicleDataResponse->json('response', []);
+                } else {
+                    //$vehicle['data'] = ['error' => $vehicleDataResponse->json('error', 'Unknown error')];
+                    return false;
+                }
+            }
+        }
+        return $this->vehicles;
+    }
+
+    public function httpsendCommand($vehicleId, $command)
+    {
+
+        $token = $this->getfreshToken();
+        $response = Http::withToken($token)
+            ->withOptions(['verify' => false])
+            ->post("{$this->baseUrl}/vehicles/{$vehicleId}/{$command}");
+
+        if ($response->successful()) {
+            //$this->showSuccess("Command '{$command}' sent successfully!");
+            // Refresh vehicle data after command
+            //$this->fetchVehicles();
+            return true;
+        } else {
+            //$this->showError("Error sending command: " . $response->json('reason', 'Unknown error'));
+            return false;
+        }
+    }
+
+    public function sendCommand($vehicleId, $command)
+    {
+        $token = $this->getfreshToken();
+        if (!$token) return false;
+
+    
+        $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}";
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $token,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ));
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            //$this->showSuccess("Command '{$command}' sent successfully!");
+            // Refresh vehicle data after command
+            //$this->fetchVehicles();
+            return true;
+        } else {
+            $responseBody = json_decode($response, true);
+            $errorReason = $responseBody['reason'] ?? 'Unknown error';
+            //$this->showError("Error sending command: " . $errorReason);
+            return false;
+        }
+    }
+
+
     public function getfreshToken(): mixed
     {
         $user = Auth::user();
