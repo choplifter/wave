@@ -24,7 +24,8 @@ new class extends Component {
         }    
         
 
-        $accessToken = (new TeslaCore)->getfreshToken();
+        $this->accessToken = (new TeslaCore)->getfreshToken();
+        $this->message = 'Token retrieved successfully.';
     }
     
 }; ?>

@@ -9,7 +9,7 @@ use Livewire\Component;
 class TeslaCore extends Component
 {
    
-    public function getfreshToken(): string
+    public function getfreshToken(): mixed
     {
         $user = Auth::user();
         try {
@@ -18,12 +18,12 @@ class TeslaCore extends Component
             if (!$user) {
                 $this->message = 'No user is currently authenticated.';
 
-                return '';
+                return null;
             }
             if (!$socialuser) {
                 $this->message = 'No Tesla social provider found for the user.';
 
-                return '';
+                return null;
             }
             $this->time = now()->toDateTimeString();
             $this->message = 'Fetching latest token information...';
@@ -57,7 +57,7 @@ class TeslaCore extends Component
             $this->accessToken = $user->access_token ?? 'No access token';
             $this->expiresAt = $user->token_expires_at ?? 'Unknown';
             $this->message = 'Could not fetch latest token from Socialite.';
-            return '';
+            return null;
         }
 
     }
