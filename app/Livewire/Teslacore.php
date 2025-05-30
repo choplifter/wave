@@ -50,7 +50,7 @@ class TeslaCore extends Component
         }
         return $this->vehicles;
     }
-    public function fetchVehicles($vehicle): bool
+    public function fetchVehicles(): array | bool
     {
         $token = $this->getfreshToken();
         if (!$token)
@@ -111,7 +111,7 @@ class TeslaCore extends Component
                 }
             }
         }
-        return true;
+        return $this->vehicles;
     }
 
     public function httpsendCommand($vehicleId, $command)
