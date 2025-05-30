@@ -93,7 +93,7 @@ new class extends Component {
                 </div>
             @endif
 
-            <div class="grid grid-cols-1 justify-center gap-4 mb-4">
+            <div class="flex justify-center gap-4 mb-4">
                 @if (count($vehicles) > 0)
                     @foreach ($vehicles as $vehicle)
                         <div
@@ -138,7 +138,7 @@ new class extends Component {
             </div>
 
             <div class="mt-4">
-                <button wire:click="fetchVehicles" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                <button wire:click="fetchVehicles" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-600">
                     Refresh Vehicles
                 </button>
             </div>
