@@ -165,6 +165,7 @@ class TeslaCore extends Component
             $responseBody = json_decode($response, true);
             $errorReason = $responseBody['reason'] ?? 'Unknown error';
             //$this->showError("Error sending command: " . $errorReason);
+            throw new \Exception("Error sending command: " . $errorReason);
             return false;
         }
     }
