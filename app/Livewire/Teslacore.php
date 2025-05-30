@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 use Laravel\Socialite\Facades\Socialite;
 
-
+function boot(): void
+{
+    Http::globalOptions([
+        'verify' => false, // Disable SSL verification
+    ]);
+}
 class TeslaCore extends Component
 {
 
