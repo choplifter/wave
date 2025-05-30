@@ -79,7 +79,7 @@ class TeslaCore extends Component
         foreach ($this->vehicles as &$vehicle) {
             $vehicleTag = $vehicle['vin'] ?? null;
             if ($vehicleTag) {
-                $vehicleDataResponse = Http::withToken($token)
+                $vehicleDataResponse = Http::withToken($token)->setoptions(['verify' => false])
                     ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
                 if ($vehicleDataResponse->successful()) {
