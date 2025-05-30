@@ -88,7 +88,7 @@ class TeslaCore extends Component
                 // $vehicleDataResponse = Http::withToken($token)->withOptions(['verify' => false,])
                 //     ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
-                $ch = curl_init("{$this->baseUrl}/vehicles");
+                $ch = curl_init("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 //curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
