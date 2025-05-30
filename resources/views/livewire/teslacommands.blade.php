@@ -121,12 +121,12 @@ new class extends Component {
                                 </button>
 
                                 <button wire:click="sendCommand('{{ $vehicle['vin'] }}', 'command/honk_horn')"
-                                    class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                                    class="px-3 py-1 bg-orange-500 text-white rounded hover:bg-yellow-600">
                                     Honk
                                 </button>
 
                                 <button wire:click="sendCommand('{{ $vehicle['vin'] }}', 'command/flash_lights')"
-                                    class="px-3 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">
+                                    class="px-3 py-1 bg-black text-white rounded hover:bg-purple-600">
                                     Flash Lights
                                 </button>
                             </div>
