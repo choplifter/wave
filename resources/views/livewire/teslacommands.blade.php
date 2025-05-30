@@ -24,14 +24,14 @@ new class extends Component {
             date_default_timezone_set('UTC'); // Fallback
         }
 
-        $this->accessToken = (new TeslaCore())->getfreshToken();
+        $this->accessToken = (new Teslacore())->getfreshToken();
         $this->fetchVehicles();
     }
 
     public function httpsendCommand($vehicleId, $command)
     {
         $url = "https://owner-api.teslamotors.com/api/1/vehicles/{$vehicleId}/{$command}";
-        $response = (new TeslaCore())->sendCommand($url, $this->accessToken);
+        $response = (new Teslacore())->sendCommand($url, $this->accessToken);
 
         if ($response) {
             $this->showSuccess("Command '{$command}' sent successfully to vehicle {$vehicleId}.");
@@ -60,7 +60,7 @@ new class extends Component {
         }
 
         try {
-            (new TeslaCore())->fetchVehicles($this->vehicles);
+            (new Teslacore())->fetchVehicles($this->vehicles);
             $this->showSuccess('Vehicles fetched successfully.');
         } catch (Exception $e) {
             $this->showError('An error occurred while fetching vehicles: ' . $e->getMessage());
