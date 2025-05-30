@@ -47,7 +47,7 @@ new class extends Component {
         }
 
         try {
-            $this->httpsendCommand($vehicleId, $command);
+            (new Teslacore())->sendCommand($vehicleId, $command);
         } catch (Exception $e) {
             $this->showError('An error occurred while sending the command: ' . $e->getMessage());
         }
