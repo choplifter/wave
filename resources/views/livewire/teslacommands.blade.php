@@ -48,6 +48,7 @@ new class extends Component {
 
         try {
             (new Teslacore())->sendCommand($vehicleId, $command);
+            $this->showSuccess("Command '{$command}' sent successfully to vehicle {$vehicleId}.");
         } catch (Exception $e) {
             $this->showError('An error occurred while sending the command: ' . $e->getMessage());
         }
