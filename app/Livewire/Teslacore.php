@@ -53,7 +53,7 @@ class TeslaCore extends Component
         
         $ch = curl_init("{$this->baseUrl}/vehicles");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
+        //curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Authorization: Bearer ' . $token,
@@ -64,11 +64,7 @@ class TeslaCore extends Component
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response = json_decode($response, true);
-        if ($response === null) {
-            // Handle JSON decode error
-            //$this->showError("Failed to decode response: " . json_last_error_msg());
-            return false;
-        }
+
 
         if ($httpCode >= 200 && $httpCode < 300) {
             $this->vehicles = $response['response'] ?? [];
