@@ -15,10 +15,11 @@ class TeslaCore extends Component
 
     protected $baseUrl = 'https://localhost:4443/api/1';
 
-    public function fetchVehicles($vehicle): bool
+    public function httpfetchVehicles($vehicle): bool
     {
         $token = $this->getfreshToken();
-        if (!$token) return false;
+        if (!$token)
+            return false;
 
         $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles");
 
@@ -28,6 +29,57 @@ class TeslaCore extends Component
             //$this->showError("Failed to fetch vehicles: " . $response->json('error', 'Unknown error'));
             return false;
         }
+        foreach ($this->vehicles as &$vehicle) {
+            $vehicleTag = $vehicle['vin'] ?? null;
+            if ($vehicleTag) {
+                $vehicleDataResponse = Http::withToken($token)
+                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
+
+                if ($vehicleDataResponse->successful()) {
+                    $vehicle['data'] = $vehicleDataResponse->json('response', []);
+                } else {
+                    //$vehicle['data'] = ['error' => $vehicleDataResponse->json('error', 'Unknown error')];
+                    return false;
+                }
+            }
+        }
+        return $this->vehicles;
+    }
+    public function fetchVehicles($vehicle): bool
+    {
+        $token = $this->getfreshToken();
+        if (!$token)
+            return false;
+        
+        $ch = curl_init("{$this->baseUrl}/vehicles");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $token,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ));
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $response = json_decode($response, true);
+        if ($response === null) {
+            // Handle JSON decode error
+            //$this->showError("Failed to decode response: " . json_last_error_msg());
+            return false;
+        }
+
+        if ($httpCode >= 200 && $httpCode < 300) {
+            $this->vehicles = $response['response'] ?? [];
+        } else {
+            //$this->showError("Failed to fetch vehicles: " . ($response['error'] ?? 'Unknown error'));
+            return false;
+        }
+        
+
+        curl_close($ch);
+
         foreach ($this->vehicles as &$vehicle) {
             $vehicleTag = $vehicle['vin'] ?? null;
             if ($vehicleTag) {
@@ -67,16 +119,16 @@ class TeslaCore extends Component
     public function sendCommand($vehicleId, $command)
     {
         $token = $this->getfreshToken();
-        if (!$token) return false;
+        if (!$token)
+            return false;
 
-    
+
         $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}";
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt ($ch, CURLOPT_CAINFO, "/var/www/vhosts/ilogistix.net/httpdocs/public/cacert.pem");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Authorization: Bearer ' . $token,
             'Content-Type: application/json',
