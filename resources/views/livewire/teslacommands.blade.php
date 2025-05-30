@@ -93,7 +93,7 @@ new class extends Component {
                 </div>
             @endif
 
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 justify-center gap-4 mb-4">
                 @if (count($vehicles) > 0)
                     @foreach ($vehicles as $vehicle)
                         <div
