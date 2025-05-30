@@ -60,7 +60,7 @@ new class extends Component {
         }
 
         try {
-            return (new Teslacore())->fetchVehicles();
+            $vehicles= (new Teslacore())->fetchVehicles();
             //$this->showSuccess('Vehicles fetched successfully.');
         } catch (Exception $e) {
             $this->showError('An error occurred while fetching vehicles: ' . $e->getMessage());
