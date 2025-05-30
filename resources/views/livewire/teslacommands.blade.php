@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Livewire\Volt\Component;
-use App\Livewire\TeslaCore;
+use App\Livewire\Teslacore;
 
 new class extends Component {
     public ?string $accessToken = null;
