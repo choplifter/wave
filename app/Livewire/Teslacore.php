@@ -111,7 +111,7 @@ class TeslaCore extends Component
                 }
             }
         }
-        return $this->vehicles;
+        return true;
     }
 
     public function httpsendCommand($vehicleId, $command)
