@@ -141,6 +141,11 @@ new class extends Component {
                 <button wire:click="fetchVehicles" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-600">
                     Refresh Vehicles
                 </button>
+                <a href="https://auth.tesla.com/user/revoke/consent?revoke_client_id={{ env('TESLA_CLIENT_ID') }}&back_url={{ urlencode(url()->current()) }}"
+                    class="ml-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    target="_blank" rel="noopener">
+                     Revoke Tesla Consent
+                </a>
             </div>
         </div>
     @else
