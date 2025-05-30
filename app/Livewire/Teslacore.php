@@ -55,7 +55,7 @@ class TeslaCore extends Component
         $token = $this->getfreshToken();
         if (!$token)
             return false;
-        
+
         $ch = curl_init("{$this->baseUrl}/vehicles");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_POST, true);
@@ -77,18 +77,34 @@ class TeslaCore extends Component
             //$this->showError("Failed to fetch vehicles: " . ($response['error'] ?? 'Unknown error'));
             return false;
         }
-        
+
 
         curl_close($ch);
 
         foreach ($this->vehicles as &$vehicle) {
             $vehicleTag = $vehicle['vin'] ?? null;
             if ($vehicleTag) {
-                $vehicleDataResponse = Http::withToken($token)->withOptions(['verify' => false,])
-                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
-                if ($vehicleDataResponse->successful()) {
-                    $vehicle['data'] = $vehicleDataResponse->json('response', []);
+                // $vehicleDataResponse = Http::withToken($token)->withOptions(['verify' => false,])
+                //     ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
+
+                $ch = curl_init("{$this->baseUrl}/vehicles");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                //curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Authorization: Bearer ' . $token,
+                    'Content-Type: application/json',
+                    'Accept: application/json',
+                ));
+
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $response = json_decode($response, true);
+
+
+                if ($httpCode >= 200 && $httpCode < 300) {
+                    $vehicle['data'] = $vehicleDataResponse = $response['response'] ?? [];
                 } else {
                     //$vehicle['data'] = ['error' => $vehicleDataResponse->json('error', 'Unknown error')];
                     return false;
