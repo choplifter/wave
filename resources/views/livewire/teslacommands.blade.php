@@ -68,7 +68,7 @@ new class extends Component {
                 $this->vehicles = [];
                 $this->showError('No vehicles found or invalid response format.');
              }
-            //$this->showSuccess('Vehicles fetched successfully.');
+            $this->showSuccess('Vehicles fetched successfully.');
         } catch (Exception $e) {
             $this->showError('An error occurred while fetching vehicles: ' . $e->getMessage());
         }
