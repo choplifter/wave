@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
 use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\BitbucketProvider;
 use Laravel\Socialite\Two\FacebookProvider;
@@ -19,7 +20,6 @@ use Laravel\Socialite\Two\SlackProvider;
 use Laravel\Socialite\Two\TwitchProvider;
 use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
 use Laravel\Socialite\Two\XProvider;
-use Laravel\Socialite\Two\TeslaProvider;
 use League\OAuth1\Client\Server\Twitter as TwitterServer;
 
 class SocialiteManager extends Manager implements Contracts\Factory
@@ -231,20 +231,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
     }
 
     /**
-     * Create an instance of the specified driver.
-     *
-     * @return \Laravel\Socialite\Two\AbstractProvider
-     */
-    protected function createTeslaDriver()
-    {
-        $config = $this->config->get('services.tesla');
-
-        return $this->buildProvider(
-            TeslaProvider::class, $config
-        );
-    }
-
-    /**
      * Build an OAuth 2 provider instance.
      *
      * @param  string  $provider
@@ -253,6 +239,14 @@ class SocialiteManager extends Manager implements Contracts\Factory
      */
     public function buildProvider($provider, $config)
     {
+        $requiredKeys = ['client_id', 'client_secret', 'redirect'];
+
+        $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
+
+        if (! empty($missingKeys)) {
+            throw DriverMissingConfigurationException::make($provider, $missingKeys);
+        }
+
         return (new $provider(
             $this->container->make('request'), $config['client_id'],
             $config['client_secret'], $this->formatRedirectUrl($config),
