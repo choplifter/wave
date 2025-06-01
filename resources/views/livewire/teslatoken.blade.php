@@ -19,13 +19,16 @@ new class extends Component {
     {
         // Get timezone from cookie or request
         $userTimezone = $_COOKIE['user_timezone'] ?? ($_GET['tz'] ?? 'UTC');
-
         // Validate timezone (prevent injection)
         if (in_array($userTimezone, DateTimeZone::listIdentifiers())) {
             date_default_timezone_set($userTimezone);
         } else {
             date_default_timezone_set('UTC'); // Fallback
-        }
+        }    
+        $this->refreshToken();
+    }
+    public function refreshToken(): string
+    {
         $user = Auth::user();
         try {
             $socialuser = $user->getSocialProviderUser('tesla');
@@ -33,12 +36,12 @@ new class extends Component {
             if (!$user) {
                 $this->message = 'No user is currently authenticated.';
 
-                return;
+                return '';
             }
             if (!$socialuser) {
                 $this->message = 'No Tesla social provider found for the user.';
 
-                return;
+                return '';
             }
             $this->time = now()->toDateTimeString();
             $this->message = 'Fetching latest token information...';
@@ -66,11 +69,15 @@ new class extends Component {
                 $this->expiresAt = $socialuser->token_expires_at ? $socialuser->token_expires_at->toDateTimeString() : 'Unknown expiration time';
                 $this->message = 'Successfully initialized token information.';
             }
+            return $this->accessToken;
+
         } catch (\Exception $e) {
             $this->accessToken = $user->access_token ?? 'No access token';
             $this->expiresAt = $user->token_expires_at ?? 'Unknown';
             $this->message = 'Could not fetch latest token from Socialite.';
+            return '';
         }
+
     }
 }; ?>
 
