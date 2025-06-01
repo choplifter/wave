@@ -60,7 +60,11 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
     }
 
     /**
+<<<<<<< HEAD
      * Map the raw user array to a Socialite User instance
+=======
+     * Map the raw user array to a Socialite User instance.
+>>>>>>> parent of 741988e (composer updated)
      *
      * @param  array  $user
      * @return \Laravel\Socialite\Two\User
