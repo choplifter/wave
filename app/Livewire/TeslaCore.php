@@ -15,7 +15,7 @@ function boot(): void
         'verify' => false, // Disable SSL verification
     ]);
 }
-class TeslaCore extends Component
+class Teslacore extends Component
 {
 
     protected $baseUrl = 'https://localhost:4443/api/1';
