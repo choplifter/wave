@@ -63,6 +63,7 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
      * Map the raw user array to a Socialite User instance
 =======
      * Map the raw user array to a Socialite User instance.
@@ -70,6 +71,9 @@ class TeslaProvider extends AbstractProvider implements ProviderInterface
 =======
      * Map the raw user array to a Socialite User instance.
 >>>>>>> cb6d78b847f07e3b1741e94b3f58c1a05f962799
+=======
+     * Map the raw user array to a Socialite User instance.
+>>>>>>> parent of 741988e (composer updated)
 =======
      * Map the raw user array to a Socialite User instance.
 >>>>>>> parent of 741988e (composer updated)
