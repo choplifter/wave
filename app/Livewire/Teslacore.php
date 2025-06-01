@@ -42,10 +42,8 @@ class TeslaCore extends Component
 
                 if ($vehicleDataResponse->successful()) {
                     $vehicle['data'] = $vehicleDataResponse->json('response', []);
-                } else {
-                    //$vehicle['data'] = ['error' => $vehicleDataResponse->json('error', 'Unknown error')];
-                    return false;
                 }
+                
             }
         }
         return $this->vehicles;
