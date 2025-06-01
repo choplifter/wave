@@ -105,10 +105,7 @@ class TeslaCore extends Component
 
                 if ($httpCode >= 200 && $httpCode < 300) {
                     $vehicle['data'] = $response['response'] ?? [];
-                } else {
-                    //$vehicle['data'] = ['error' => $vehicleDataResponse->json('error', 'Unknown error')];
-                    return false;
-                }
+                } 
             }
         }
         return $this->vehicles;
