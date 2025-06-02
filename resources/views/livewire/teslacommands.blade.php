@@ -143,7 +143,7 @@ new class extends Component {
                 @endif
             </div>
 
-            <div class="mt-4">
+            <div class="flex justify-center gap-4 mb-4">
                 <button wire:click="fetchVehicles" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-600">
                     Refresh Vehicles
                 </button>
