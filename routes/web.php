@@ -15,16 +15,15 @@ use Illuminate\Support\Facades\Route;
 use Wave\Facades\Wave;
 use Laravel\Socialite\Facades\Socialite;
 
+
+Route::domain('api.' . env('APP_URL'))->group(function () {
+    Route::middleware(['auth', 'web'])->group(function () {
+        // Forward all /api/tesla/* calls to the local Tesla vehicle HTTP proxy using Teslacore token
+        Route::any('/api/{any}', [\App\Http\Controllers\TeslaApiProxyController::class, 'forward'])
+            ->where('any', '.*')
+            ->name('tesla.api.proxy');
+    });
+});
+
 // Wave routes
 Wave::routes();
-
-Route::get('auth/tesla', function () {
-    return Socialite::driver('tesla')->redirect();
-});
-
-Route::get('auth/tesla/callback', function () {
-    $user = Socialite::driver('tesla')->user();
-
-    // Handle user login or registration
-    dd($user);
-});
