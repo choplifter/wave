@@ -11,8 +11,8 @@ return [
 	],
 
 	'api' => [
-		'auth_token_expires' 	=> 60*60*60*30,
-		'key_token_expires'		=> 1,
+		'auth_token_expires' 	=> 60,
+		'key_token_expires'		=> 10080, // 28 days
 	],
 
 	'auth' => [
