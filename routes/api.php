@@ -24,3 +24,10 @@ Wave::api();
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/posts', '\App\Http\Controllers\Api\ApiController@posts');
 });
+
+// Posts Example API Route
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::any('/1', '\App\Http\Controllers\TeslaApiProxyController@forward');
+       // ->where('any', '.*')
+       // ->name('tesla.api.proxy');
+});
