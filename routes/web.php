@@ -16,7 +16,7 @@ use Wave\Facades\Wave;
 use Laravel\Socialite\Facades\Socialite;
 
 
-Route::domain('api.' . env('APP_URL'))->group(function () {
+Route::domain('api.ilogistix.net')->group(function () {
     Route::middleware(['auth', 'web'])->group(function () {
         // Forward all /api/tesla/* calls to the local Tesla vehicle HTTP proxy using Teslacore token
         Route::any('/api/1/{any}', [\App\Http\Controllers\TeslaApiProxyController::class, 'forward'])
