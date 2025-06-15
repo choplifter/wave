@@ -32,7 +32,7 @@ name('dashboard');
         <div class="w-full p-10 space-y-4 border border-black">
             @livewire('teslacommands')
         </div>
-        <div class="w-full p-10 space-y-4 border border-black">
+        <div class="w-full p-10 space-y-4 border border-black col-span-2">
             @livewire('teslaapitransactionstable')
         </div>
     </div>
