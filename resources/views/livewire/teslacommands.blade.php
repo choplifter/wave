@@ -90,7 +90,7 @@ new class extends Component {
 
 
 <div>
-    @if (Auth::user()->isAdmin())
+    @if (Auth::user()->check())
         <div>
             @if ($message)
                 <div
