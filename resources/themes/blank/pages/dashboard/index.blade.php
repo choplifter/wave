@@ -32,5 +32,8 @@ name('dashboard');
         <div class="w-full p-10 space-y-4 border border-black">
             @livewire('teslacommands')
         </div>
+        <div class="w-full p-10 space-y-4 border border-black">
+            @livewire('teslaapitransactionstable')
+        </div>
     </div>
 </x-layouts.app>
