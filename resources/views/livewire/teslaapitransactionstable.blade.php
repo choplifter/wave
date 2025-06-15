@@ -2,8 +2,9 @@
 
 use App\Models\TeslaApiTransaction;
 use Illuminate\Support\Str;
-
-class TeslaApiTransactionsTable extends \Livewire\Volt\Component
+use Livewire\Volt\Component;
+  
+new class extends Component 
 {
     public array $transactions = [];
 
