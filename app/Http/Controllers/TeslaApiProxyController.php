@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Livewire\Teslacore;
+use App\Models\TeslaApiTransaction;
+use Illuminate\Support\Facades\Auth;
 
 class TeslaApiProxyController extends Controller
 {
@@ -20,15 +22,24 @@ class TeslaApiProxyController extends Controller
         }
 
         $proxyUrl = "https://localhost:4443/api/1/{$any}";
-       //$response = Http::withOptions(['verify' => false])->withToken($token)->get($proxyUrl);
 
         $response = Http::withOptions(['verify' => false])
             ->withToken($token)
             //->withHeaders($request->header())
             ->send($request->method(), $proxyUrl, [
-            'query' => $request->query(),
-            'body' => $request->getContent(),
+                'query' => $request->query(),
+                'body' => $request->getContent(),
             ]);
+
+        // Log transaction
+        TeslaApiTransaction::create([
+            'user_id' => Auth::id(),
+            'method' => $request->method(),
+            'path' => $any,
+            'status' => $response->status(),
+            'request_body' => $request->getContent(),
+            'response_body' => $response->body(),
+        ]);
 
         return response($response->body(), $response->status())
             ->withHeaders($response->headers());
