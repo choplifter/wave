@@ -1,20 +1,26 @@
 <?php
 
 use App\Models\TeslaApiTransaction;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Livewire\Volt\Component;
-  
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 new class extends Component 
 {
-    public array $transactions = [];
-
+    public  $transactions;
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
     public function mount()
     {
-        $this->transactions = TeslaApiTransaction::with('user')
+        $this->transactions = TeslaApiTransaction::with(relations: 'user')
             ->latest()
             ->take(50)
-            ->get()
-            ->toArray();
+            ->get();
+           
     }
 }
 ?>
