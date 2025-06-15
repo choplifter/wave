@@ -83,7 +83,7 @@ new class extends Component {
 
 
 <div>
-    @if (Auth::user()->check())
+    @if (Auth::check())
         <div class="p-6 max-w-sm mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md space-y-4">
             <div class="text-center text-sm text-gray-500 mb-4">
                 <span class="font-semibold">Admin Mode:</span> You can view and refresh Tesla tokens.
