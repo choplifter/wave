@@ -49,8 +49,8 @@ new class extends Component
                         <td class="px-2 py-1 border">{{ $txn->method }}</td>
                         <td class="px-2 py-1 border">{{ $txn->path }}</td>
                         <td class="px-2 py-1 border">{{ $txn->status }}</td>
-                        <td class="px-2 py-1 border">{{ Str::limit($txn->request_body, 40) }}</td>
-                        <td class="px-2 py-1 border">{{ Str::limit($txn->response_body, 40) }}</td>
+                        <td class="px-2 py-1 border">{{ Str::limit($txn->request_body, 80) }}</td>
+                        <td class="px-2 py-1 border">{{ Str::limit($txn->response_body, 140) }}</td>
                         <td class="px-2 py-1 border">{{ $txn->created_at }}</td>
                     </tr>
                 @endforeach
