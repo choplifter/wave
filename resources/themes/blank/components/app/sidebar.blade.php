@@ -14,6 +14,8 @@
 
             </nav>
         </div>
-
+        <div class="relative px-6 py-4">
+            <x-app.user-menu />
+        </div>
     </div>
 </aside>

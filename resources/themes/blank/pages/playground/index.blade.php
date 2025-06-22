@@ -2,7 +2,7 @@
 use function Laravel\Folio\{middleware, name};
 use Laravel\livewire\Counter;
 middleware('auth');
-name('dashboard');
+name('playground');
 ?>
 
 <x-layouts.app>
