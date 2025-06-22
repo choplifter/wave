@@ -13,6 +13,35 @@ class TeslaApiProxyController extends Controller
 {
     public function forward(Request $request, $any)
     { 
+        // Extract vehicleId if present in the path
+        $vehicleId = null;
+        if (preg_match('#vehicles/([A-Za-z0-9]+)#', $any, $matches)) {
+            $vehicleId = $matches[1];
+        }
+
+        // If vehicleId found, wake up if offline
+        if ($vehicleId) {
+            $wakeResult = $this->wakeUpIfOffline($vehicleId);
+            // Optionally, you can log or handle $wakeResult as needed
+            if ($wakeResult['state'] !== 'online') {
+                return response()->json(['error' => 'Vehicle is offline and could not be woken up'], 503);
+            } 
+            if ($wakeResult['woken_up']) {
+                // Vehicle was successfully woken up
+                // Optionally, you can log the wake up attempt
+                TeslaApiTransaction::create([
+                    'user_id' => Auth::id(),
+                    'method' => 'POST',
+                    'path' => "vehicles/{$vehicleId}/wake_up",
+                    'status' => 200,
+                    'request_body' => null,
+                    'response_body' => json_encode($wakeResult['response']),
+                ]);
+            }
+            
+        }
+
+        
         // Get fresh Tesla token using Teslacore Livewire component
         $teslacore = new Teslacore();
         $token = $teslacore->getfreshToken();
@@ -44,4 +73,53 @@ class TeslaApiProxyController extends Controller
         return response($response->body(), $response->status())
             ->withHeaders($response->headers());
     }
+    /**
+     * Wake up the Tesla vehicle if it is offline.
+     *
+     * @param string $vehicleId
+     * @return array ['woken_up' => bool, 'state' => string, 'response' => mixed]
+     */
+    public function wakeUpIfOffline($vehicleId)
+    {
+        $teslacore = new Teslacore();
+        $token = $teslacore->getfreshToken();
+
+        if (!$token) {
+            return ['woken_up' => false, 'state' => 'unknown', 'response' => 'No token'];
+        }
+
+        // Get vehicle state
+        $vehicleUrl = "https://localhost:4443/api/1/vehicles/{$vehicleId}";
+        $vehicleResponse = Http::withOptions(['verify' => false])
+            ->withToken($token)
+            ->get($vehicleUrl);
+
+        if (!$vehicleResponse->ok()) {
+            return ['woken_up' => false, 'state' => 'unknown', 'response' => $vehicleResponse->body()];
+        }
+
+        $vehicleData = $vehicleResponse->json();
+        $state = $vehicleData['response']['state'] ?? 'unknown';
+
+        if ($state !== 'online') {
+            // Wake up the vehicle
+            $wakeUrl = "https://localhost:4443/api/1/vehicles/{$vehicleId}/wake_up";
+            $wakeResponse = Http::withOptions(['verify' => false])
+                ->withToken($token)
+                ->post($wakeUrl);
+
+            return [
+                'woken_up' => true,
+                'state' => $state,
+                'response' => $wakeResponse->json()
+            ];
+        }
+
+        return [
+            'woken_up' => false,
+            'state' => $state,
+            'response' => 'Vehicle already online'
+        ];
+    }
+
 }
