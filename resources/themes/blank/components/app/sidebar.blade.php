@@ -9,8 +9,8 @@
                 <x-logo class="w-auto mb-6 h-7"></x-logo>
             </a>
             <nav class="flex flex-col w-full -mx-1 space-y-2">
-                <x-app.sidebar-link href="/dashboard" active="true">Menu Item 1</x-app.sidebar-link>
-                <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Menu Item 2</x-app.sidebar-link>
+                <x-app.sidebar-link href="/dashboard" active="true">Dashboard</x-app.sidebar-link>
+                <x-app.sidebar-link href="/playground" active="true"">Menu Item 2</x-app.sidebar-link>
                 <x-app.sidebar-dropdown text="Menu Dropdown" icon="phosphor-stack" id="example_dropdown" :active="false" :open="false">
                     <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 1</x-app.sidebar-link>
                     <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 2</x-app.sidebar-link>

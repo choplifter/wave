@@ -24,9 +24,7 @@ name('dashboard');
         <div class="w-full p-10 space-y-4 border border-black">
             @livewire('teslatoken')
         </div>
-        <div class="w-full p-10 space-y-4 border border-black">
-            @livewire('teslacommands')
-        </div>
+
         <div class="w-full p-10 space-y-4 border border-black col-span-1 md:col-span-2">
             @livewire('teslaapitransactionstable')
         </div>
