@@ -10,22 +10,10 @@
             </a>
             <nav class="flex flex-col w-full -mx-1 space-y-2">
                 <x-app.sidebar-link href="/dashboard" active="true">Dashboard</x-app.sidebar-link>
-                <x-app.sidebar-link href="/playground" active="true"">Menu Item 2</x-app.sidebar-link>
-                <x-app.sidebar-dropdown text="Menu Dropdown" icon="phosphor-stack" id="example_dropdown" :active="false" :open="false">
-                    <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 1</x-app.sidebar-link>
-                    <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 2</x-app.sidebar-link>
-                    <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 3</x-app.sidebar-link>
-                    <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Dropdown Item 4</x-app.sidebar-link>
-                </x-app.sidebar-dropdown>
-                <x-app.sidebar-link onclick="sidebarLinkDemo(event)">Final Menu Item</x-app.sidebar-link>
+                <x-app.sidebar-link href="/playground" active="true">Playground</x-app.sidebar-link>
+
             </nav>
         </div>
-        <div class="relative px-6 py-4">
-            <div class="relative pb-4 -mx-1 space-y-1">
-                <x-app.sidebar-link target="_blank" href="https://devdojo.com/wave/docs">Documentation</x-app.sidebar-link>
-                <x-app.sidebar-link href="/changelog">Changelog</x-app.sidebar-link>
-            </div>
-            <x-app.user-menu />
-        </div>
+
     </div>
 </aside>
