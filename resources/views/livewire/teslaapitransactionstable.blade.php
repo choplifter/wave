@@ -16,10 +16,9 @@ new class extends Component
     }
     public function mount()
     {
-        $this->transactions = TeslaApiTransaction::with(relations: 'user')
-            ->latest()
-            ->take(50)
+        $this->transactions = TeslaApiTransaction::with('user')
             ->orderBy('id', 'asc')
+            ->take(50)
             ->get();
            
     }
