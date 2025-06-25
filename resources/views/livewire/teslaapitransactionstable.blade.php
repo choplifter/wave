@@ -19,7 +19,7 @@ new class extends Component
         $this->transactions = TeslaApiTransaction::with(relations: 'user')
             ->latest()
             ->take(50)
-            ->sortBy('id', 'asc')
+            ->orderBy('id', 'asc')
             ->get();
            
     }
