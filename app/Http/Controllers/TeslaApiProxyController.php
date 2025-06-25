@@ -94,6 +94,16 @@ class TeslaApiProxyController extends Controller
             ->withToken($token)
             ->get($vehicleUrl);
 
+            // log transaction
+        TeslaApiTransaction::create([
+            'user_id' => Auth::id(),
+            'method' => 'GET',
+            'path' => "vehicles/{$vehicleId}",
+            'status' => $vehicleResponse->status(),
+            'request_body' => null,
+            'response_body' => $vehicleResponse->body(),
+        ]);
+
         if (!$vehicleResponse->ok()) {
             return ['woken_up' => false, 'state' => 'unknown', 'response' => $vehicleResponse->body()];
         }
@@ -107,6 +117,16 @@ class TeslaApiProxyController extends Controller
             $wakeResponse = Http::withOptions(['verify' => false])
                 ->withToken($token)
                 ->post($wakeUrl);
+            
+                // log transaction
+            TeslaApiTransaction::create([
+                'user_id' => Auth::id(),
+                'method' => 'POST',
+                'path' => "vehicles/{$vehicleId}/wake_up",
+                'status' => $wakeResponse->status(),
+                'request_body' => null,
+                'response_body' => $wakeResponse->body(),
+            ]); 
 
             return [
                 'woken_up' => true,
