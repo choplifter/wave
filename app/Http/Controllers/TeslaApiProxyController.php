@@ -121,14 +121,14 @@ class TeslaApiProxyController extends Controller
 
             return [
                 'woken_up' => true,
-                'state' => $state,
+                'state' => $wakeResponse->json()['response']['state'] ?? 'unknown',
                 'response' => $wakeResponse->json()
             ];
         }
 
         return [
             'woken_up' => false,
-            'state' => $state,
+            'state' => 'online',
             'response' => 'Vehicle already online'
         ];
     }
