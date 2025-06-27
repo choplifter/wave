@@ -24,7 +24,7 @@ class TeslaApiProxyController extends Controller
             $wakeResult = $this->wakeUpIfOffline($vehicleId);
             // Optionally, you can log or handle $wakeResult as needed
             if ($wakeResult['state'] !== 'online') {
-                return response()->json(['error' => 'Vehicle is offline and could not be woken up'], 503);
+                return response()->json(['error' => 'Vehicle is offline and could not be woken up: '.$wakeResult['state']], 503);
             } 
             if ($wakeResult['woken_up']) {
                 // Vehicle was successfully woken up
