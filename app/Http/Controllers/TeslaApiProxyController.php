@@ -121,7 +121,7 @@ class TeslaApiProxyController extends Controller
 
             return [
                 'woken_up' => true,
-                'state' => $wakeResponse->json()['response']['state'] ?? 'unknown',
+                'state' => $wakeResponse->httpStatusCode() === 200 ? 'online' : 'unknown',
                 'response' => $wakeResponse->json()
             ];
         }
