@@ -61,8 +61,24 @@ class TeslaApiProxyController extends Controller
             'response_body' => $response->body(),
         ]);
 
+        // Filter out hop-by-hop headers that should not be forwarded
+        $excludedHeaders = [
+            'transfer-encoding',
+            'content-length',
+            'connection',
+            'keep-alive',
+            'proxy-authenticate',
+            'proxy-authorization',
+            'te',
+            'trailer',
+            'upgrade',
+        ];
+        $filteredHeaders = collect($response->headers())->filter(function ($value, $key) use ($excludedHeaders) {
+            return !in_array(strtolower($key), $excludedHeaders);
+        })->toArray();
+
         return response($response->body(), $response->status())
-            ->withHeaders($response->headers());
+            ->withHeaders($filteredHeaders);
     }
     /**
      * Wake up the Tesla vehicle if it is offline.
@@ -108,7 +124,7 @@ class TeslaApiProxyController extends Controller
             $wakeResponse = Http::withOptions(['verify' => false])
                 ->withToken($token)
                 ->post($wakeUrl);
-            
+                
             sleep(5);
 
                 // log transaction
@@ -124,7 +140,7 @@ class TeslaApiProxyController extends Controller
           
             return [
                 'woken_up' => true,
-                'state' => $wakeResponse->httpStatusCode() === 200 ? 'online' : 'unknown',
+                'state' => $wakeResponse->status() === 200 ? 'online' : 'unknown',
                 'response' => $wakeResponse->json()
             ];
         }
