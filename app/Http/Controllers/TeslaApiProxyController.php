@@ -61,7 +61,7 @@ class TeslaApiProxyController extends Controller
 
         $response = Http::withOptions(['verify' => false])
             ->withToken($token)
-            ->withHeaders($filteredHeaders)
+            //->withHeaders($filteredHeaders)
             ->send($request->method(), $proxyUrl, [
                 'query' => $request->query(),
                 'body' => $request->getContent(),
