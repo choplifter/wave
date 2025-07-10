@@ -53,7 +53,7 @@ class TeslaApiProxyController extends Controller
             'trailer',
             'upgrade',
         ];
-        $filteredHeaders = collect($request->headers())->filter(function ($value, $key) use ($excludedHeaders) {
+        $filteredHeaders = collect($request->header())->filter(function ($value, $key) use ($excludedHeaders) {
             return !in_array(strtolower($key), $excludedHeaders);
         })->toArray();
 
