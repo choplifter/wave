@@ -15,12 +15,14 @@ class TeslaApiProxyController extends Controller
     { 
         // Extract vehicleId if present in the path
         $vehicleId = null;
+        $type = null;
         if (preg_match('#vehicles/([A-Za-z0-9]+)#', $any, $matches)) {
             $vehicleId = $matches[1];
+            $type = $matches[2] ?? null; // Capture type if available
         }
 
         // If vehicleId found, wake up if offline
-        if ($vehicleId) {
+        if ($vehicleId && $type === 'command') {
             $wakeResult = $this->wakeUpIfOffline($vehicleId);
             // Optionally, you can log or handle $wakeResult as needed
 
