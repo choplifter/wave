@@ -18,9 +18,12 @@ class TeslaApiProxyController extends Controller
         $type = null;
         if (preg_match('#vehicles/([A-Za-z0-9]+)#', $any, $matches)) {
             $vehicleId = $matches[1];
-            $type = $matches[2] ?? null; // Capture type if available
         }
 
+        if (strpos($any, 'command') !== false) {
+            $type = 'command';
+        }
+        
         // If vehicleId found, wake up if offline
         if ($vehicleId && $type === 'command') {
             $wakeResult = $this->wakeUpIfOffline($vehicleId);
