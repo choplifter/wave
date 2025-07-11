@@ -23,7 +23,7 @@ class TeslaApiProxyController extends Controller
         if (strpos($any, 'command') !== false) {
             $type = 'command';
         }
-        
+
         // If vehicleId found, wake up if offline
         if ($vehicleId && $type === 'command') {
             $wakeResult = $this->wakeUpIfOffline($vehicleId);
@@ -132,7 +132,7 @@ class TeslaApiProxyController extends Controller
                 ->withToken($token)
                 ->post($wakeUrl);
                 
-            sleep(5);
+            sleep(10);
 
                 // log transaction
             TeslaApiTransaction::create([
