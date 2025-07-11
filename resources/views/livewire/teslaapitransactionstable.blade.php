@@ -49,12 +49,44 @@ new class extends Component
                         <td class="px-2 py-1 border">{{ $txn->method }}</td>
                         <td class="px-2 py-1 border">{{ $txn->path }}</td>
                         <td class="px-2 py-1 border">{{ $txn->status }}</td>
-                        <td class="px-2 py-1 border">{{ Str::limit($txn->request_body, 80) }}</td>
-                        <td class="px-2 py-1 border">{{ Str::limit($txn->response_body, 140) }}</td>
+                        <td class="px-2 py-1 border">
+                            <button 
+                                class="text-blue-600 underline focus:outline-none"
+                                onclick="toggleJson('req-{{ $txn->id }}')"
+                                type="button"
+                            >
+                                {{ Str::limit($txn->request_body, 80) }}
+                            </button>
+                            <div id="req-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left max-w-xs overflow-x-auto">
+                                <pre class="whitespace-pre-wrap break-all text-xs">{{ json_encode(json_decode($txn->request_body), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: $txn->request_body }}</pre>
+                            </div>
+                        </td>
+                        <td class="px-2 py-1 border">
+                            <button 
+                                class="text-blue-600 underline focus:outline-none"
+                                onclick="toggleJson('res-{{ $txn->id }}')"
+                                type="button"
+                            >
+                                {{ Str::limit($txn->response_body, 80) }}
+                            </button>
+                            <div id="res-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left max-w-xs overflow-x-auto">
+                                <pre class="whitespace-pre-wrap break-all text-xs">{{ json_encode(json_decode($txn->response_body), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: $txn->response_body }}</pre>
+                            </div>
+                        </td>
                         <td class="px-2 py-1 border">{{ $txn->created_at }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <script>
+        function toggleJson(id) {
+            var el = document.getElementById(id);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+    </script>
 </div>
