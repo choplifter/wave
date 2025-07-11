@@ -4,29 +4,44 @@ use App\Models\TeslaApiTransaction;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Livewire\Volt\Component;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 new class extends Component 
 {
-    public  $transactions;
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+    public $transactions;
+
     public function mount()
+    {
+        $this->refreshTransactions();
+    }
+
+    public function refreshTransactions()
     {
         $this->transactions = TeslaApiTransaction::with('user')
             ->orderBy('id', 'desc')
             ->take(50)
             ->get();
-           
+    }
+
+    public function deleteAll()
+    {
+        TeslaApiTransaction::truncate();
+        $this->refreshTransactions();
     }
 }
 ?>
 
 <div>
-    <h2 class="text-xl font-bold mb-4">Tesla API Transactions</h2>
+    <h2 class="text-xl font-bold mb-4 flex items-center justify-between">
+        Tesla API Transactions
+        <button 
+            wire:click="deleteAll"
+            class="bg-red-600 text-black px-3 py-1 rounded text-xs hover:bg-red-700"
+            onclick="return confirm('Delete all transactions?')"
+        >
+            Delete All
+        </button>
+    </h2>
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200 text-xs">
             <thead>
