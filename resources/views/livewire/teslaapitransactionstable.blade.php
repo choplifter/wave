@@ -57,7 +57,7 @@ new class extends Component
                             >
                                 {{ Str::limit($txn->request_body, 80) }}
                             </button>
-                            <div id="req-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left max-w-xs overflow-x-auto">
+                            <div id="req-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left overflow-x-auto">
                                 <pre class="whitespace-pre-wrap break-all text-xs">{{ json_encode(json_decode($txn->request_body), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: $txn->request_body }}</pre>
                             </div>
                         </td>
@@ -69,7 +69,7 @@ new class extends Component
                             >
                                 {{ Str::limit($txn->response_body, 80) }}
                             </button>
-                            <div id="res-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left max-w-xs overflow-x-auto">
+                            <div id="res-{{ $txn->id }}" class="hidden bg-gray-100 p-2 mt-1 rounded text-left overflow-x-auto">
                                 <pre class="whitespace-pre-wrap break-all text-xs">{{ json_encode(json_decode($txn->response_body), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: $txn->response_body }}</pre>
                             </div>
                         </td>
