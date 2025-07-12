@@ -132,7 +132,6 @@ class TeslaApiProxyController extends Controller
                 ->withToken($token)
                 ->post($wakeUrl);
                 
-            sleep(10);
 
                 // log transaction
             TeslaApiTransaction::create([
@@ -144,7 +143,8 @@ class TeslaApiProxyController extends Controller
                 'response_body' => $wakeResponse->body(),
             ]); 
             
-          
+            sleep(10);
+            
             return [
                 'woken_up' => true,
                 'state' => $wakeResponse->ok() ? 'online' : 'unknown',
