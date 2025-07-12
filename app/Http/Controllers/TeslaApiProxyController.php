@@ -143,7 +143,7 @@ class TeslaApiProxyController extends Controller
                 'response_body' => $wakeResponse->body(),
             ]); 
             
-            sleep(10);
+            sleep(5);
             
             return [
                 'woken_up' => true,
