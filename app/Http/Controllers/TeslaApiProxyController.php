@@ -20,7 +20,7 @@ class TeslaApiProxyController extends Controller
             $vehicleId = $matches[1];
         }
 
-        if (strpos($any, 'command') === true && strpos($any, 'set_charging_amps') === false) {
+        if (strpos($any, 'command') !== false && strpos($any, 'set_charging_amps') === false) {
             $type = 'command';
         }
 
