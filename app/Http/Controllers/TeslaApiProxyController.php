@@ -20,7 +20,7 @@ class TeslaApiProxyController extends Controller
             $vehicleId = $matches[1];
         }
 
-        if (strpos($any, 'command') !== false) {
+        if (strpos($any, 'command') === true && strpos($any, 'set_charging_amps') === false) {
             $type = 'command';
         }
 
@@ -93,7 +93,7 @@ class TeslaApiProxyController extends Controller
      * @param string $vehicleId
      * @return array ['woken_up' => bool, 'state' => string, 'response' => mixed]
      */
-    public function wakeUpIfOffline($vehicleId)
+    public function wakeUpIfOffline($vehicleId, $command = null)
     {
         $teslacore = new Teslacore();
         $token = $teslacore->getfreshToken();
