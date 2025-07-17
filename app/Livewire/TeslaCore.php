@@ -26,7 +26,7 @@ class Teslacore extends Component
         if (!$token)
             return false;
 
-        $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles");
+        $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles?XDEBUG_SESSION_START=VSCODE");
 
         if ($response->successful()) {
             $this->vehicles = $response->json('response', []);
@@ -38,7 +38,7 @@ class Teslacore extends Component
             $vehicleTag = $vehicle['vin'] ?? null;
             if ($vehicleTag) {
                 $vehicleDataResponse = Http::withToken($token)
-                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
+                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data?XDEBUG_SESSION_START=VSCODE");
 
                 if ($vehicleDataResponse->successful()) {
                     $vehicle['data'] = $vehicleDataResponse->json('response', []);
@@ -53,7 +53,7 @@ class Teslacore extends Component
         if (!$token)
             return false;
 
-        $ch = curl_init("{$this->baseUrl}/vehicles");
+        $ch = curl_init("{$this->baseUrl}/vehicles?XDEBUG_SESSION_START=VSCODE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -85,7 +85,7 @@ class Teslacore extends Component
                 // $vehicleDataResponse = Http::withToken($token)->withOptions(['verify' => false,])
                 //     ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
-                $ch = curl_init("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
+                $ch = curl_init("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data?XDEBUG_SESSION_START=VSCODE");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 //curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -114,7 +114,7 @@ class Teslacore extends Component
         $token = $this->getfreshToken();
         $response = Http::withToken($token)
             ->withOptions(['verify' => false])
-            ->post("{$this->baseUrl}/vehicles/{$vehicleId}/{$command}");
+            ->post("{$this->baseUrl}/vehicles/{$vehicleId}/{$command}?XDEBUG_SESSION_START=VSCODE");
 
         if ($response->successful()) {
             //$this->showSuccess("Command '{$command}' sent successfully!");
@@ -134,7 +134,7 @@ class Teslacore extends Component
             return false;
 
 
-        $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}";
+        $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}?XDEBUG_SESSION_START=VSCODE";
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
