@@ -18,7 +18,7 @@ function boot(): void
 class Teslacore extends Component
 {
 
-    protected $baseUrl = 'https://localhost:4443/api/1';
+    protected $baseUrl = 'https://api.ilogistix.net/api/1';
 
     public function httpfetchVehicles($vehicle): bool
     {
@@ -26,7 +26,7 @@ class Teslacore extends Component
         if (!$token)
             return false;
 
-        $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles?XDEBUG_SESSION_START=VSCODE");
+        $response = Http::withToken($token)->get("{$this->baseUrl}/vehicles");
 
         if ($response->successful()) {
             $this->vehicles = $response->json('response', []);
@@ -38,7 +38,7 @@ class Teslacore extends Component
             $vehicleTag = $vehicle['vin'] ?? null;
             if ($vehicleTag) {
                 $vehicleDataResponse = Http::withToken($token)
-                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data?XDEBUG_SESSION_START=VSCODE");
+                    ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
                 if ($vehicleDataResponse->successful()) {
                     $vehicle['data'] = $vehicleDataResponse->json('response', []);
@@ -47,13 +47,50 @@ class Teslacore extends Component
         }
         return $this->vehicles;
     }
+
+    public function wakeupifneeded($any): void
+    {
+        
+        if (stripos($any, 'wake_up') === true) {
+            return;
+        }  
+
+        $parts = explode('/', $any);
+        if (count($parts) < 2) {
+            // Invalid path, handle error
+            return;
+        }   
+        $vehicleId = $parts[1]; 
+
+
+        $vehicles=$this->fetchVehicles();
+
+        $vehicle = collect(vehicles)->firstWhere('id', $vehicleId);
+
+        if (!$vehicle && ($vehicle['state'] ?? null) !== 'offline') {
+            // Vehicle is online, no attempt to wake up
+            // You can log or handle this case as needed
+            return;
+        }
+
+        $tpc= new TeslaapiProxyController();
+        $lrquest = new \Illuminate\Http\Request();
+        $lrquest->setMethod('POST');
+        $tpc->forward($lrquest, 'vehicles/'.$vehicleId.'/wake_up');
+
+
+
+
+    }
     public function fetchVehicles(): array | bool
     {
         $token = $this->getfreshToken();
         if (!$token)
             return false;
 
-        $ch = curl_init("{$this->baseUrl}/vehicles?XDEBUG_SESSION_START=VSCODE");
+        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
+
+        $ch = curl_init("{$this->baseUrl}/vehicles");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -85,7 +122,7 @@ class Teslacore extends Component
                 // $vehicleDataResponse = Http::withToken($token)->withOptions(['verify' => false,])
                 //     ->get("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
 
-                $ch = curl_init("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data?XDEBUG_SESSION_START=VSCODE");
+                $ch = curl_init("{$this->baseUrl}/vehicles/{$vehicleTag}/vehicle_data");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 //curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -114,7 +151,7 @@ class Teslacore extends Component
         $token = $this->getfreshToken();
         $response = Http::withToken($token)
             ->withOptions(['verify' => false])
-            ->post("{$this->baseUrl}/vehicles/{$vehicleId}/{$command}?XDEBUG_SESSION_START=VSCODE");
+            ->post("{$this->baseUrl}/vehicles/{$vehicleId}/{$command}");
 
         if ($response->successful()) {
             //$this->showSuccess("Command '{$command}' sent successfully!");
@@ -129,12 +166,13 @@ class Teslacore extends Component
 
     public function sendCommand($vehicleId, $command)
     {
-        $token = $this->getfreshToken();
-        if (!$token)
-            return false;
+//        $token = $this->getfreshToken();
+//        if (!$token)
+//            return false;
+        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
 
 
-        $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}?XDEBUG_SESSION_START=VSCODE";
+        $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}";
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
