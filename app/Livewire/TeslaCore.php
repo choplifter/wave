@@ -18,7 +18,8 @@ function boot(): void
 class Teslacore extends Component
 {
 
-    protected $baseUrl = 'https://api.ilogistix.net/api/1';
+    //protected $baseUrl = 'https://api.ilogistix.net/api/1';
+    protected $baseUrl = 'https://localhost:4443/api/1';
 
     public function httpfetchVehicles($vehicle): bool
     {
@@ -88,7 +89,7 @@ class Teslacore extends Component
         if (!$token)
             return false;
 
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
+        //$token = 'J0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
 
         $ch = curl_init("{$this->baseUrl}/vehicles");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -166,10 +167,10 @@ class Teslacore extends Component
 
     public function sendCommand($vehicleId, $command)
     {
-//        $token = $this->getfreshToken();
-//        if (!$token)
-//            return false;
-        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
+         $token = $this->getfreshToken();
+         if (!$token)
+             return false;
+        //$token = 'J0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5pbG9naXN0aXgubmV0L2FwaS90b2tlbiIsImlhdCI6MTc1MDM1OTM2NSwiZXhwIjo0OTAzOTU5MzY1LCJuYmYiOjE3NTAzNTkzNjUsImp0aSI6IjJTOUZqbEFDd0kxSmpIQk0iLCJzdWIiOiIyIiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.4H5JPLwm6eW1e2S7A8Mruy0j_8sVyF1IV15hM2DSSsM';
 
 
         $url = "{$this->baseUrl}/vehicles/{$vehicleId}/{$command}";
