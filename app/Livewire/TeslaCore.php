@@ -15,7 +15,7 @@ function boot(): void
         'verify' => false, // Disable SSL verification
     ]);
 }
-class Teslacore extends Component
+class TeslaCore extends Component
 {
     protected $vehicles = [];
     protected $baseUrl = 'https://api.ilogistix.net/api/1';

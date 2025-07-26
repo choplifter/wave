@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Livewire\Teslacore;
+use App\Livewire\TeslaCore;
 use App\Models\TeslaApiTransaction;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,8 +38,8 @@ class TeslaApiProxyController extends Controller
         }
 
         
-        // Get fresh Tesla token using Teslacore Livewire component
-        $teslacore = new Teslacore();
+        // Get fresh Tesla token using TeslaCore Livewire component
+        $teslacore = new TeslaCore();
         $token = $teslacore->getfreshToken();
 
         if (!$token) {
@@ -95,7 +95,7 @@ class TeslaApiProxyController extends Controller
      */
     public function wakeUpIfOffline($vehicleId, $command = null)
     {
-        $teslacore = new Teslacore();
+        $teslacore = new TeslaCore();
         $token = $teslacore->getfreshToken();
 
         if (!$token) {

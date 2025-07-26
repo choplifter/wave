@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Livewire\Volt\Component;
-use App\Livewire\Teslacore;
+use App\Livewire\TeslaCore;
 
 new class extends Component {
     public ?string $accessToken = null;
@@ -24,14 +24,14 @@ new class extends Component {
             date_default_timezone_set('UTC'); // Fallback
         }
 
-        $this->accessToken = (new Teslacore())->getfreshToken();
+        $this->accessToken = (new TeslaCore())->getfreshToken();
         $this->fetchVehicles();
     }
 
     public function httpsendCommand($vehicleId, $command)
     {
         $url = "https://owner-api.teslamotors.com/api/1/vehicles/{$vehicleId}/{$command}";
-        $response = (new Teslacore())->sendCommand($url, $this->accessToken);
+        $response = (new TeslaCore())->sendCommand($url, $this->accessToken);
 
         if ($response) {
             $this->showSuccess("Command '{$command}' sent successfully to vehicle {$vehicleId}.");
@@ -47,7 +47,7 @@ new class extends Component {
         }
 
         try {
-           if( (new Teslacore())->sendCommand($vehicleId, $command));
+           if( (new TeslaCore())->sendCommand($vehicleId, $command));
             $this->showSuccess("Command '{$command}' sent successfully to vehicle {$vehicleId}.");
         } catch (Exception $e) {
             $this->showError('An error occurred while sending the command: ' . $e->getMessage());
@@ -61,7 +61,7 @@ new class extends Component {
         }
 
         try {
-             $result= (new Teslacore())->fetchVehicles();
+             $result= (new TeslaCore())->fetchVehicles();
              if(is_array($result) && count($result) > 0) {
                 $this->vehicles = $result;
                 } else {
